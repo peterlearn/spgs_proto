@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "peterlearn/api;v1";
+
+message Empty {
+}
+
+message HelloResp {
+  string Version = 1;
+}

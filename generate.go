@@ -4,4 +4,5 @@ package proto
 // https://github.com/go-kratos/kratos
 // https://github.com/protocolbuffers/protobuf/releases
 //go:generate kratos proto client notice -p common
+//go:generate kratos proto client api -p common
 //// //
