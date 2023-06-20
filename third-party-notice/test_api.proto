@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package third_party_notice;
+
+option go_package = "peterlearn/third-party-notice;v1";
+
+import "google/api/annotations.proto";
+import "third-party-notice/third_party_notice.proto";
+
+service Test {
+  // 发送消息
+  rpc SendMessage(SendMessageReq) returns (Empty) {
+    option (google.api.http) = {
+      post: "third-party-notice/test/SendMessage"
+      body: "*"
+    };
+  }
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package third_party_notice;
+
+option go_package = "peterlearn/third-party-notice;v1";
+
+message Empty {}
+
+message SendMessageReq {
+  string Msg = 1; //发送内容
+  string Group = 2; //组名
+}
