@@ -4,7 +4,7 @@ package third_party_notice;
 
 option go_package = "peterlearn/third-party-notice;v1";
 
-import "third-party-notice/third_party_notice.proto";
+import "notice/third_party_notice.proto";
 
 service ThirdPartyNotice {
   // 发送消息

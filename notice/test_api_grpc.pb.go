@@ -2,13 +2,12 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.21.12
-// source: third-party-notice/test_api.proto
+// source: notice/test_api.proto
 
 package v1
 
 import (
 	context "context"
-	third_party_notice "gitlab.com/firerocksg/global-proto/third-party-notice"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -28,7 +27,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TestClient interface {
 	// 发送消息
-	SendMessage(ctx context.Context, in *third_party_notice.SendMessageReq, opts ...grpc.CallOption) (*third_party_notice.Empty, error)
+	SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type testClient struct {
@@ -39,8 +38,8 @@ func NewTestClient(cc grpc.ClientConnInterface) TestClient {
 	return &testClient{cc}
 }
 
-func (c *testClient) SendMessage(ctx context.Context, in *third_party_notice.SendMessageReq, opts ...grpc.CallOption) (*third_party_notice.Empty, error) {
-	out := new(third_party_notice.Empty)
+func (c *testClient) SendMessage(ctx context.Context, in *SendMessageReq, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, Test_SendMessage_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -53,7 +52,7 @@ func (c *testClient) SendMessage(ctx context.Context, in *third_party_notice.Sen
 // for forward compatibility
 type TestServer interface {
 	// 发送消息
-	SendMessage(context.Context, *third_party_notice.SendMessageReq) (*third_party_notice.Empty, error)
+	SendMessage(context.Context, *SendMessageReq) (*Empty, error)
 	mustEmbedUnimplementedTestServer()
 }
 
@@ -61,7 +60,7 @@ type TestServer interface {
 type UnimplementedTestServer struct {
 }
 
-func (UnimplementedTestServer) SendMessage(context.Context, *third_party_notice.SendMessageReq) (*third_party_notice.Empty, error) {
+func (UnimplementedTestServer) SendMessage(context.Context, *SendMessageReq) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
 }
 func (UnimplementedTestServer) mustEmbedUnimplementedTestServer() {}
@@ -78,7 +77,7 @@ func RegisterTestServer(s grpc.ServiceRegistrar, srv TestServer) {
 }
 
 func _Test_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(third_party_notice.SendMessageReq)
+	in := new(SendMessageReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -90,7 +89,7 @@ func _Test_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Test_SendMessage_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestServer).SendMessage(ctx, req.(*third_party_notice.SendMessageReq))
+		return srv.(TestServer).SendMessage(ctx, req.(*SendMessageReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -108,5 +107,5 @@ var Test_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "third-party-notice/test_api.proto",
+	Metadata: "notice/test_api.proto",
 }

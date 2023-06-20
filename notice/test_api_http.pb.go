@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-http v2.6.1
 // - protoc             v3.21.12
-// source: third-party-notice/test_api.proto
+// source: notice/test_api.proto
 
 package v1
 
@@ -10,7 +10,6 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
-	third_party_notice "gitlab.com/firerocksg/global-proto/third-party-notice"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -24,7 +23,7 @@ const OperationTestSendMessage = "/third_party_notice.Test/SendMessage"
 
 type TestHTTPServer interface {
 	// SendMessage 发送消息
-	SendMessage(context.Context, *third_party_notice.SendMessageReq) (*third_party_notice.Empty, error)
+	SendMessage(context.Context, *SendMessageReq) (*Empty, error)
 }
 
 func RegisterTestHTTPServer(s *http.Server, srv TestHTTPServer) {
@@ -34,25 +33,25 @@ func RegisterTestHTTPServer(s *http.Server, srv TestHTTPServer) {
 
 func _Test_SendMessage0_HTTP_Handler(srv TestHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in third_party_notice.SendMessageReq
+		var in SendMessageReq
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationTestSendMessage)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.SendMessage(ctx, req.(*third_party_notice.SendMessageReq))
+			return srv.SendMessage(ctx, req.(*SendMessageReq))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*third_party_notice.Empty)
+		reply := out.(*Empty)
 		return ctx.Result(200, reply)
 	}
 }
 
 type TestHTTPClient interface {
-	SendMessage(ctx context.Context, req *third_party_notice.SendMessageReq, opts ...http.CallOption) (rsp *third_party_notice.Empty, err error)
+	SendMessage(ctx context.Context, req *SendMessageReq, opts ...http.CallOption) (rsp *Empty, err error)
 }
 
 type TestHTTPClientImpl struct {
@@ -63,8 +62,8 @@ func NewTestHTTPClient(client *http.Client) TestHTTPClient {
 	return &TestHTTPClientImpl{client}
 }
 
-func (c *TestHTTPClientImpl) SendMessage(ctx context.Context, in *third_party_notice.SendMessageReq, opts ...http.CallOption) (*third_party_notice.Empty, error) {
-	var out third_party_notice.Empty
+func (c *TestHTTPClientImpl) SendMessage(ctx context.Context, in *SendMessageReq, opts ...http.CallOption) (*Empty, error) {
+	var out Empty
 	pattern := "third-party-notice/test/SendMessage"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTestSendMessage))

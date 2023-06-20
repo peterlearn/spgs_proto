@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.21.12
-// source: third-party-notice/api.proto
+// source: notice/api.proto
 
 package v1
 
@@ -107,5 +107,5 @@ var ThirdPartyNotice_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "third-party-notice/api.proto",
+	Metadata: "notice/api.proto",
 }
