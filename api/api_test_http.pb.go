@@ -19,25 +19,25 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationApiServiceHello = "/api.ApiService/Hello"
+const OperationTestServiceHello = "/api.TestService/Hello"
 
-type ApiServiceHTTPServer interface {
+type TestServiceHTTPServer interface {
 	// Hello 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
 }
 
-func RegisterApiServiceHTTPServer(s *http.Server, srv ApiServiceHTTPServer) {
+func RegisterTestServiceHTTPServer(s *http.Server, srv TestServiceHTTPServer) {
 	r := s.Route("/")
-	r.POST("api/Hello", _ApiService_Hello0_HTTP_Handler(srv))
+	r.POST("api/Hello", _TestService_Hello0_HTTP_Handler(srv))
 }
 
-func _ApiService_Hello0_HTTP_Handler(srv ApiServiceHTTPServer) func(ctx http.Context) error {
+func _TestService_Hello0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in Empty
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationApiServiceHello)
+		http.SetOperation(ctx, OperationTestServiceHello)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.Hello(ctx, req.(*Empty))
 		})
@@ -50,23 +50,23 @@ func _ApiService_Hello0_HTTP_Handler(srv ApiServiceHTTPServer) func(ctx http.Con
 	}
 }
 
-type ApiServiceHTTPClient interface {
+type TestServiceHTTPClient interface {
 	Hello(ctx context.Context, req *Empty, opts ...http.CallOption) (rsp *HelloResp, err error)
 }
 
-type ApiServiceHTTPClientImpl struct {
+type TestServiceHTTPClientImpl struct {
 	cc *http.Client
 }
 
-func NewApiServiceHTTPClient(client *http.Client) ApiServiceHTTPClient {
-	return &ApiServiceHTTPClientImpl{client}
+func NewTestServiceHTTPClient(client *http.Client) TestServiceHTTPClient {
+	return &TestServiceHTTPClientImpl{client}
 }
 
-func (c *ApiServiceHTTPClientImpl) Hello(ctx context.Context, in *Empty, opts ...http.CallOption) (*HelloResp, error) {
+func (c *TestServiceHTTPClientImpl) Hello(ctx context.Context, in *Empty, opts ...http.CallOption) (*HelloResp, error) {
 	var out HelloResp
 	pattern := "api/Hello"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationApiServiceHello))
+	opts = append(opts, http.Operation(OperationTestServiceHello))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

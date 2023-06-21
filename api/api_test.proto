@@ -8,7 +8,7 @@ import "api/default.proto";
 import "google/api/annotations.proto";
 
 
-service ApiService {
+service TestService {
   // 发送消息
   rpc Hello(Empty) returns (HelloResp) {
     option (google.api.http) = {

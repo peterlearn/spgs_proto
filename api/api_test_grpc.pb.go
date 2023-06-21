@@ -19,91 +19,91 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ApiService_Hello_FullMethodName = "/api.ApiService/Hello"
+	TestService_Hello_FullMethodName = "/api.TestService/Hello"
 )
 
-// ApiServiceClient is the client API for ApiService service.
+// TestServiceClient is the client API for TestService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ApiServiceClient interface {
+type TestServiceClient interface {
 	// 发送消息
 	Hello(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*HelloResp, error)
 }
 
-type apiServiceClient struct {
+type testServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewApiServiceClient(cc grpc.ClientConnInterface) ApiServiceClient {
-	return &apiServiceClient{cc}
+func NewTestServiceClient(cc grpc.ClientConnInterface) TestServiceClient {
+	return &testServiceClient{cc}
 }
 
-func (c *apiServiceClient) Hello(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*HelloResp, error) {
+func (c *testServiceClient) Hello(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*HelloResp, error) {
 	out := new(HelloResp)
-	err := c.cc.Invoke(ctx, ApiService_Hello_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, TestService_Hello_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ApiServiceServer is the server API for ApiService service.
-// All implementations must embed UnimplementedApiServiceServer
+// TestServiceServer is the server API for TestService service.
+// All implementations must embed UnimplementedTestServiceServer
 // for forward compatibility
-type ApiServiceServer interface {
+type TestServiceServer interface {
 	// 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
-	mustEmbedUnimplementedApiServiceServer()
+	mustEmbedUnimplementedTestServiceServer()
 }
 
-// UnimplementedApiServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedApiServiceServer struct {
+// UnimplementedTestServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTestServiceServer struct {
 }
 
-func (UnimplementedApiServiceServer) Hello(context.Context, *Empty) (*HelloResp, error) {
+func (UnimplementedTestServiceServer) Hello(context.Context, *Empty) (*HelloResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Hello not implemented")
 }
-func (UnimplementedApiServiceServer) mustEmbedUnimplementedApiServiceServer() {}
+func (UnimplementedTestServiceServer) mustEmbedUnimplementedTestServiceServer() {}
 
-// UnsafeApiServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ApiServiceServer will
+// UnsafeTestServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TestServiceServer will
 // result in compilation errors.
-type UnsafeApiServiceServer interface {
-	mustEmbedUnimplementedApiServiceServer()
+type UnsafeTestServiceServer interface {
+	mustEmbedUnimplementedTestServiceServer()
 }
 
-func RegisterApiServiceServer(s grpc.ServiceRegistrar, srv ApiServiceServer) {
-	s.RegisterService(&ApiService_ServiceDesc, srv)
+func RegisterTestServiceServer(s grpc.ServiceRegistrar, srv TestServiceServer) {
+	s.RegisterService(&TestService_ServiceDesc, srv)
 }
 
-func _ApiService_Hello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TestService_Hello_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ApiServiceServer).Hello(ctx, in)
+		return srv.(TestServiceServer).Hello(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ApiService_Hello_FullMethodName,
+		FullMethod: TestService_Hello_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApiServiceServer).Hello(ctx, req.(*Empty))
+		return srv.(TestServiceServer).Hello(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ApiService_ServiceDesc is the grpc.ServiceDesc for ApiService service.
+// TestService_ServiceDesc is the grpc.ServiceDesc for TestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ApiService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.ApiService",
-	HandlerType: (*ApiServiceServer)(nil),
+var TestService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.TestService",
+	HandlerType: (*TestServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Hello",
-			Handler:    _ApiService_Hello_Handler,
+			Handler:    _TestService_Hello_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
