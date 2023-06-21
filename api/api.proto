@@ -5,9 +5,16 @@ package api;
 option go_package = "peterlearn/api;v1";
 
 import "api/default.proto";
+import "google/api/annotations.proto";
+
 
 service ApiService {
   // 发送消息
-  rpc Hello(Empty) returns (HelloResp);
+  rpc Hello(Empty) returns (HelloResp) {
+    option (google.api.http) = {
+      post: "api/Hello"
+      body: "*"
+    };
+  }
 }
 
