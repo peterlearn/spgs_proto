@@ -28,7 +28,7 @@ type TestServiceHTTPServer interface {
 
 func RegisterTestServiceHTTPServer(s *http.Server, srv TestServiceHTTPServer) {
 	r := s.Route("/")
-	r.POST("api/Hello", _TestService_Hello0_HTTP_Handler(srv))
+	r.POST("api/test/Hello", _TestService_Hello0_HTTP_Handler(srv))
 }
 
 func _TestService_Hello0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.Context) error {
@@ -64,7 +64,7 @@ func NewTestServiceHTTPClient(client *http.Client) TestServiceHTTPClient {
 
 func (c *TestServiceHTTPClientImpl) Hello(ctx context.Context, in *Empty, opts ...http.CallOption) (*HelloResp, error) {
 	var out HelloResp
-	pattern := "api/Hello"
+	pattern := "api/test/Hello"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTestServiceHello))
 	opts = append(opts, http.PathTemplate(pattern))

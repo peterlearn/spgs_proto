@@ -12,7 +12,7 @@ service TestService {
   // 发送消息
   rpc Hello(Empty) returns (HelloResp) {
     option (google.api.http) = {
-      post: "api/Hello"
+      post: "api/test/Hello"
       body: "*"
     };
   }
