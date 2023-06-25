@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package common;
+
+option go_package = "github.com/peterlearn/spgs_proto/common;common";
+option csharp_namespace = "Hallgame.OperationSys.Common.Proto";
+
+
+//国家类型
+enum Country {
+  CT_All = 0; //所有国家
+  CT_Thailand = 1;  //泰国
+  CT_Indonesia = 2;    //印尼
+  CT_Vietnam = 3;   //越南
+  CT_Malaysia = 4;  //马来西亚
+  CT_China = 5; //中国
+  CT_Taiwan = 6; //台湾
+  CT_Macao = 7; //澳门
+  CT_HongKong = 8; //香港
+  CT_Singapore = 9; //新加坡
+  CT_Cambodia = 10; //柬埔寨
+  CT_India = 11; //印度
+  CT_Japan = 12; //日本
+  CT_Laos = 13; //老挝
+  CT_Philippines = 14; //菲律宾
+  CT_Myanmar = 15; //缅甸
+}
+
+enum Language {
+  LG_Invalid = 0; //无效
+  LG_Thai = 1; //泰语
+  LG_Indonesian = 2; //印尼语
+  LG_English = 3; //英语
+  LG_Vietnamese = 4; //越南语
+  LG_Chinese = 5; // 中文
+  LG_Malaysia = 6; // 马来文
+}
