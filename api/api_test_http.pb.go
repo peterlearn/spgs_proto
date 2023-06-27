@@ -20,15 +20,19 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationTestServiceHello = "/api.TestService/Hello"
+const OperationTestServiceTestRiakStore = "/api.TestService/TestRiakStore"
 
 type TestServiceHTTPServer interface {
 	// Hello 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
+	// TestRiakStore riak存储
+	TestRiakStore(context.Context, *RiakStoreReq) (*RiakStoreResp, error)
 }
 
 func RegisterTestServiceHTTPServer(s *http.Server, srv TestServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("api/test/Hello", _TestService_Hello0_HTTP_Handler(srv))
+	r.POST("api/test/riakStore", _TestService_TestRiakStore0_HTTP_Handler(srv))
 }
 
 func _TestService_Hello0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.Context) error {
@@ -50,8 +54,28 @@ func _TestService_Hello0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.C
 	}
 }
 
+func _TestService_TestRiakStore0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RiakStoreReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTestServiceTestRiakStore)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.TestRiakStore(ctx, req.(*RiakStoreReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RiakStoreResp)
+		return ctx.Result(200, reply)
+	}
+}
+
 type TestServiceHTTPClient interface {
 	Hello(ctx context.Context, req *Empty, opts ...http.CallOption) (rsp *HelloResp, err error)
+	TestRiakStore(ctx context.Context, req *RiakStoreReq, opts ...http.CallOption) (rsp *RiakStoreResp, err error)
 }
 
 type TestServiceHTTPClientImpl struct {
@@ -67,6 +91,19 @@ func (c *TestServiceHTTPClientImpl) Hello(ctx context.Context, in *Empty, opts .
 	pattern := "api/test/Hello"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTestServiceHello))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *TestServiceHTTPClientImpl) TestRiakStore(ctx context.Context, in *RiakStoreReq, opts ...http.CallOption) (*RiakStoreResp, error) {
+	var out RiakStoreResp
+	pattern := "api/test/riakStore"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTestServiceTestRiakStore))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

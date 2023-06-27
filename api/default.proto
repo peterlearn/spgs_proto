@@ -12,3 +12,13 @@ message HelloResp {
   string Version = 1;
   common.Country Country = 2;
 }
+
+// riak存储请求
+message RiakStoreReq {
+  string Bucket = 1;
+  string Key = 2;
+  string Data = 3;
+}
+
+message RiakStoreResp {
+}

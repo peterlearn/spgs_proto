@@ -7,12 +7,18 @@ option go_package = "peterlearn/api;v1";
 import "api/default.proto";
 import "google/api/annotations.proto";
 
-
 service TestService {
   // 发送消息
   rpc Hello(Empty) returns (HelloResp) {
     option (google.api.http) = {
       post: "api/test/Hello"
+      body: "*"
+    };
+  }
+  // riak存储
+  rpc TestRiakStore(RiakStoreReq) returns (RiakStoreResp) {
+    option (google.api.http) = {
+      post: "api/test/riakStore"
       body: "*"
     };
   }

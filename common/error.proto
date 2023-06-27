@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "errors/errors.proto";
+
+package common;
+
+option go_package = "github.com/peterlearn/spgs_proto/common;common";
+
+// 客户端只接受proto, 目前服务器推下来的错误信息,是json格式的，加个错误的message,用来解析json
+message ErrorMsg {
+  int32 code = 1;
+  string reason = 2;
+  string message = 3;
+}
+
+enum ErrCode {
+  option (errors.default_code) = 520;
+
+  //1-99	常见公用错误码
+  ErrCodeNone = 0;
+  InvalidParams = 1;      //非法参数
+  RedisError = 2;         //redis错误
+  TokenFailure = 3;       //token失效
+  RiakStoreError = 4;     //riak存储错误
+}

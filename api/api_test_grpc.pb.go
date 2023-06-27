@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TestService_Hello_FullMethodName = "/api.TestService/Hello"
+	TestService_Hello_FullMethodName         = "/api.TestService/Hello"
+	TestService_TestRiakStore_FullMethodName = "/api.TestService/TestRiakStore"
 )
 
 // TestServiceClient is the client API for TestService service.
@@ -28,6 +29,8 @@ const (
 type TestServiceClient interface {
 	// 发送消息
 	Hello(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*HelloResp, error)
+	// riak存储
+	TestRiakStore(ctx context.Context, in *RiakStoreReq, opts ...grpc.CallOption) (*RiakStoreResp, error)
 }
 
 type testServiceClient struct {
@@ -47,12 +50,23 @@ func (c *testServiceClient) Hello(ctx context.Context, in *Empty, opts ...grpc.C
 	return out, nil
 }
 
+func (c *testServiceClient) TestRiakStore(ctx context.Context, in *RiakStoreReq, opts ...grpc.CallOption) (*RiakStoreResp, error) {
+	out := new(RiakStoreResp)
+	err := c.cc.Invoke(ctx, TestService_TestRiakStore_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TestServiceServer is the server API for TestService service.
 // All implementations must embed UnimplementedTestServiceServer
 // for forward compatibility
 type TestServiceServer interface {
 	// 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
+	// riak存储
+	TestRiakStore(context.Context, *RiakStoreReq) (*RiakStoreResp, error)
 	mustEmbedUnimplementedTestServiceServer()
 }
 
@@ -62,6 +76,9 @@ type UnimplementedTestServiceServer struct {
 
 func (UnimplementedTestServiceServer) Hello(context.Context, *Empty) (*HelloResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Hello not implemented")
+}
+func (UnimplementedTestServiceServer) TestRiakStore(context.Context, *RiakStoreReq) (*RiakStoreResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TestRiakStore not implemented")
 }
 func (UnimplementedTestServiceServer) mustEmbedUnimplementedTestServiceServer() {}
 
@@ -94,6 +111,24 @@ func _TestService_Hello_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TestService_TestRiakStore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RiakStoreReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).TestRiakStore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TestService_TestRiakStore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).TestRiakStore(ctx, req.(*RiakStoreReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TestService_ServiceDesc is the grpc.ServiceDesc for TestService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +139,10 @@ var TestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Hello",
 			Handler:    _TestService_Hello_Handler,
+		},
+		{
+			MethodName: "TestRiakStore",
+			Handler:    _TestService_TestRiakStore_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
