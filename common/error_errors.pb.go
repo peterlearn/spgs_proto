@@ -67,16 +67,16 @@ func ErrorTokenFailure(format string, args ...interface{}) *errors.Error {
 	return errors.New(520, ErrCode_TokenFailure.String(), fmt.Sprintf(format, args...))
 }
 
-// riak存储错误
-func IsRiakStoreError(err error) bool {
+// riak错误
+func IsRiakError(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_RiakStoreError.String() && e.Code == 520
+	return e.Reason == ErrCode_RiakError.String() && e.Code == 520
 }
 
-// riak存储错误
-func ErrorRiakStoreError(format string, args ...interface{}) *errors.Error {
-	return errors.New(520, ErrCode_RiakStoreError.String(), fmt.Sprintf(format, args...))
+// riak错误
+func ErrorRiakError(format string, args ...interface{}) *errors.Error {
+	return errors.New(520, ErrCode_RiakError.String(), fmt.Sprintf(format, args...))
 }

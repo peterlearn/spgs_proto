@@ -22,5 +22,12 @@ service TestService {
       body: "*"
     };
   }
+  // 获取riak数据
+  rpc TestRiakFetch(RiakFetchReq) returns (RiakFetchResp) {
+    option (google.api.http) = {
+      post: "api/test/riakFetch"
+      body: "*"
+    };
+  }
 }
 

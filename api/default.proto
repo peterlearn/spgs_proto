@@ -22,3 +22,17 @@ message RiakStoreReq {
 
 message RiakStoreResp {
 }
+
+// 获取riak中数据
+message RiakFetchReq {
+  string Bucket = 1;
+  repeated string Key = 2;
+}
+
+message KV {
+  string Key = 1;
+  string Val = 2;
+}
+message RiakFetchResp {
+  repeated KV Data = 1;
+}
