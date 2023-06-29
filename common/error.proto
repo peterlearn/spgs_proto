@@ -22,4 +22,7 @@ enum ErrCode {
   RedisError = 2 [(errors.code) = 2];         //redis错误
   TokenFailure = 3 [(errors.code) = 3];       //token失效
   RiakError = 4 [(errors.code) = 4];          //riak错误
+  InvalidMerchantName = 48 [(errors.code) = 48]; // merchantName wrong
+  InvalidMerchantCode = 49 [(errors.code) = 49]; // merchantCode wrong
+  MerchantNameLock = 50 [(errors.code) = 50];   // merchant被锁
 }

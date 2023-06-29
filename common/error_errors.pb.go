@@ -80,3 +80,45 @@ func IsRiakError(err error) bool {
 func ErrorRiakError(format string, args ...interface{}) *errors.Error {
 	return errors.New(4, ErrCode_RiakError.String(), fmt.Sprintf(format, args...))
 }
+
+// merchantName wrong
+func IsInvalidMerchantName(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_InvalidMerchantName.String() && e.Code == 48
+}
+
+// merchantName wrong
+func ErrorInvalidMerchantName(format string, args ...interface{}) *errors.Error {
+	return errors.New(48, ErrCode_InvalidMerchantName.String(), fmt.Sprintf(format, args...))
+}
+
+// merchantCode wrong
+func IsInvalidMerchantCode(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_InvalidMerchantCode.String() && e.Code == 49
+}
+
+// merchantCode wrong
+func ErrorInvalidMerchantCode(format string, args ...interface{}) *errors.Error {
+	return errors.New(49, ErrCode_InvalidMerchantCode.String(), fmt.Sprintf(format, args...))
+}
+
+// merchant被锁
+func IsMerchantNameLock(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_MerchantNameLock.String() && e.Code == 50
+}
+
+// merchant被锁
+func ErrorMerchantNameLock(format string, args ...interface{}) *errors.Error {
+	return errors.New(50, ErrCode_MerchantNameLock.String(), fmt.Sprintf(format, args...))
+}
