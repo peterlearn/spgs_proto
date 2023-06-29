@@ -17,9 +17,9 @@ enum ErrCode {
   option (errors.default_code) = 520;
 
   //1-99	常见公用错误码
-  ErrCodeNone = 0;
-  InvalidParams = 1;      //非法参数
-  RedisError = 2;         //redis错误
-  TokenFailure = 3;       //token失效
-  RiakError = 4;          //riak错误
+  ErrCodeNone = 0 [(errors.code) = 0];
+  InvalidParams = 1 [(errors.code) = 1];      //非法参数
+  RedisError = 2 [(errors.code) = 2];         //redis错误
+  TokenFailure = 3 [(errors.code) = 3];       //token失效
+  RiakError = 4 [(errors.code) = 4];          //riak错误
 }
