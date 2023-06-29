@@ -36,3 +36,12 @@ message KV {
 message RiakFetchResp {
   repeated KV Data = 1;
 }
+
+// 删除riak中数据
+message RiakDeleteReq {
+  string Bucket = 1;
+  string Key = 2;
+}
+
+message RiakDeleteResp {
+}

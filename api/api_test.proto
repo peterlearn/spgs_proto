@@ -29,5 +29,13 @@ service TestService {
       body: "*"
     };
   }
+
+  // 删除riak数据
+  rpc TestRiakDelete(RiakDeleteReq) returns (RiakDeleteResp) {
+    option (google.api.http) = {
+      post: "api/test/riakDelete"
+      body: "*"
+    };
+  }
 }
 

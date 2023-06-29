@@ -20,12 +20,15 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationTestServiceHello = "/api.TestService/Hello"
+const OperationTestServiceTestRiakDelete = "/api.TestService/TestRiakDelete"
 const OperationTestServiceTestRiakFetch = "/api.TestService/TestRiakFetch"
 const OperationTestServiceTestRiakStore = "/api.TestService/TestRiakStore"
 
 type TestServiceHTTPServer interface {
 	// Hello 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
+	// TestRiakDelete 删除riak数据
+	TestRiakDelete(context.Context, *RiakDeleteReq) (*RiakDeleteResp, error)
 	// TestRiakFetch 获取riak数据
 	TestRiakFetch(context.Context, *RiakFetchReq) (*RiakFetchResp, error)
 	// TestRiakStore riak存储
@@ -37,6 +40,7 @@ func RegisterTestServiceHTTPServer(s *http.Server, srv TestServiceHTTPServer) {
 	r.POST("api/test/Hello", _TestService_Hello0_HTTP_Handler(srv))
 	r.POST("api/test/riakStore", _TestService_TestRiakStore0_HTTP_Handler(srv))
 	r.POST("api/test/riakFetch", _TestService_TestRiakFetch0_HTTP_Handler(srv))
+	r.POST("api/test/riakDelete", _TestService_TestRiakDelete0_HTTP_Handler(srv))
 }
 
 func _TestService_Hello0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.Context) error {
@@ -96,8 +100,28 @@ func _TestService_TestRiakFetch0_HTTP_Handler(srv TestServiceHTTPServer) func(ct
 	}
 }
 
+func _TestService_TestRiakDelete0_HTTP_Handler(srv TestServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in RiakDeleteReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTestServiceTestRiakDelete)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.TestRiakDelete(ctx, req.(*RiakDeleteReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*RiakDeleteResp)
+		return ctx.Result(200, reply)
+	}
+}
+
 type TestServiceHTTPClient interface {
 	Hello(ctx context.Context, req *Empty, opts ...http.CallOption) (rsp *HelloResp, err error)
+	TestRiakDelete(ctx context.Context, req *RiakDeleteReq, opts ...http.CallOption) (rsp *RiakDeleteResp, err error)
 	TestRiakFetch(ctx context.Context, req *RiakFetchReq, opts ...http.CallOption) (rsp *RiakFetchResp, err error)
 	TestRiakStore(ctx context.Context, req *RiakStoreReq, opts ...http.CallOption) (rsp *RiakStoreResp, err error)
 }
@@ -115,6 +139,19 @@ func (c *TestServiceHTTPClientImpl) Hello(ctx context.Context, in *Empty, opts .
 	pattern := "api/test/Hello"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTestServiceHello))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *TestServiceHTTPClientImpl) TestRiakDelete(ctx context.Context, in *RiakDeleteReq, opts ...http.CallOption) (*RiakDeleteResp, error) {
+	var out RiakDeleteResp
+	pattern := "api/test/riakDelete"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationTestServiceTestRiakDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

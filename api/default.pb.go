@@ -374,6 +374,100 @@ func (x *RiakFetchResp) GetData() []*KV {
 	return nil
 }
 
+// 删除riak中数据
+type RiakDeleteReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Bucket string `protobuf:"bytes,1,opt,name=Bucket,proto3" json:"Bucket,omitempty"`
+	Key    string `protobuf:"bytes,2,opt,name=Key,proto3" json:"Key,omitempty"`
+}
+
+func (x *RiakDeleteReq) Reset() {
+	*x = RiakDeleteReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_default_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RiakDeleteReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RiakDeleteReq) ProtoMessage() {}
+
+func (x *RiakDeleteReq) ProtoReflect() protoreflect.Message {
+	mi := &file_api_default_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RiakDeleteReq.ProtoReflect.Descriptor instead.
+func (*RiakDeleteReq) Descriptor() ([]byte, []int) {
+	return file_api_default_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RiakDeleteReq) GetBucket() string {
+	if x != nil {
+		return x.Bucket
+	}
+	return ""
+}
+
+func (x *RiakDeleteReq) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+type RiakDeleteResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RiakDeleteResp) Reset() {
+	*x = RiakDeleteResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_api_default_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RiakDeleteResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RiakDeleteResp) ProtoMessage() {}
+
+func (x *RiakDeleteResp) ProtoReflect() protoreflect.Message {
+	mi := &file_api_default_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RiakDeleteResp.ProtoReflect.Descriptor instead.
+func (*RiakDeleteResp) Descriptor() ([]byte, []int) {
+	return file_api_default_proto_rawDescGZIP(), []int{8}
+}
+
 var File_api_default_proto protoreflect.FileDescriptor
 
 var file_api_default_proto_rawDesc = []byte{
@@ -400,9 +494,14 @@ var file_api_default_proto_rawDesc = []byte{
 	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x56, 0x61, 0x6c, 0x22, 0x2c, 0x0a, 0x0d, 0x52, 0x69,
 	0x61, 0x6b, 0x46, 0x65, 0x74, 0x63, 0x68, 0x52, 0x65, 0x73, 0x70, 0x12, 0x1b, 0x0a, 0x04, 0x44,
 	0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x07, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x4b, 0x56, 0x52, 0x04, 0x44, 0x61, 0x74, 0x61, 0x42, 0x13, 0x5a, 0x11, 0x70, 0x65, 0x74, 0x65,
-	0x72, 0x6c, 0x65, 0x61, 0x72, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x4b, 0x56, 0x52, 0x04, 0x44, 0x61, 0x74, 0x61, 0x22, 0x39, 0x0a, 0x0d, 0x52, 0x69, 0x61, 0x6b,
+	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x42, 0x75, 0x63,
+	0x6b, 0x65, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x42, 0x75, 0x63, 0x6b, 0x65,
+	0x74, 0x12, 0x10, 0x0a, 0x03, 0x4b, 0x65, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03,
+	0x4b, 0x65, 0x79, 0x22, 0x10, 0x0a, 0x0e, 0x52, 0x69, 0x61, 0x6b, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x42, 0x13, 0x5a, 0x11, 0x70, 0x65, 0x74, 0x65, 0x72, 0x6c, 0x65,
+	0x61, 0x72, 0x6e, 0x2f, 0x61, 0x70, 0x69, 0x3b, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -417,19 +516,21 @@ func file_api_default_proto_rawDescGZIP() []byte {
 	return file_api_default_proto_rawDescData
 }
 
-var file_api_default_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_api_default_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_api_default_proto_goTypes = []interface{}{
-	(*Empty)(nil),         // 0: api.Empty
-	(*HelloResp)(nil),     // 1: api.HelloResp
-	(*RiakStoreReq)(nil),  // 2: api.RiakStoreReq
-	(*RiakStoreResp)(nil), // 3: api.RiakStoreResp
-	(*RiakFetchReq)(nil),  // 4: api.RiakFetchReq
-	(*KV)(nil),            // 5: api.KV
-	(*RiakFetchResp)(nil), // 6: api.RiakFetchResp
-	(common.Country)(0),   // 7: common.Country
+	(*Empty)(nil),          // 0: api.Empty
+	(*HelloResp)(nil),      // 1: api.HelloResp
+	(*RiakStoreReq)(nil),   // 2: api.RiakStoreReq
+	(*RiakStoreResp)(nil),  // 3: api.RiakStoreResp
+	(*RiakFetchReq)(nil),   // 4: api.RiakFetchReq
+	(*KV)(nil),             // 5: api.KV
+	(*RiakFetchResp)(nil),  // 6: api.RiakFetchResp
+	(*RiakDeleteReq)(nil),  // 7: api.RiakDeleteReq
+	(*RiakDeleteResp)(nil), // 8: api.RiakDeleteResp
+	(common.Country)(0),    // 9: common.Country
 }
 var file_api_default_proto_depIdxs = []int32{
-	7, // 0: api.HelloResp.Country:type_name -> common.Country
+	9, // 0: api.HelloResp.Country:type_name -> common.Country
 	5, // 1: api.RiakFetchResp.Data:type_name -> api.KV
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
@@ -528,6 +629,30 @@ func file_api_default_proto_init() {
 				return nil
 			}
 		}
+		file_api_default_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RiakDeleteReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_api_default_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RiakDeleteResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -535,7 +660,7 @@ func file_api_default_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_api_default_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
