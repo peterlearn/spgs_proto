@@ -25,4 +25,5 @@ enum ErrCode {
   InvalidMerchantName = 48 [(errors.code) = 48]; // merchantName wrong
   InvalidMerchantCode = 49 [(errors.code) = 49]; // merchantCode wrong
   MerchantNameLock = 50 [(errors.code) = 50];   // merchant被锁
+  GetMerchantError = 51 [(errors.code) = 51];   // merchant不存在
 }

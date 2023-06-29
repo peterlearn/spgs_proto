@@ -122,3 +122,17 @@ func IsMerchantNameLock(err error) bool {
 func ErrorMerchantNameLock(format string, args ...interface{}) *errors.Error {
 	return errors.New(50, ErrCode_MerchantNameLock.String(), fmt.Sprintf(format, args...))
 }
+
+// merchant不存在
+func IsGetMerchantError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_GetMerchantError.String() && e.Code == 51
+}
+
+// merchant不存在
+func ErrorGetMerchantError(format string, args ...interface{}) *errors.Error {
+	return errors.New(51, ErrCode_GetMerchantError.String(), fmt.Sprintf(format, args...))
+}
