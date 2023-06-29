@@ -5,6 +5,7 @@ package api;
 option go_package = "peterlearn/api;v1";
 
 import "api/default.proto";
+import "api/player.proto";
 import "google/api/annotations.proto";
 
 
@@ -13,6 +14,13 @@ service ApiService {
   rpc Hello(Empty) returns (HelloResp) {
     option (google.api.http) = {
       post: "api/Hello"
+      body: "*"
+    };
+  }
+  // 新建用户
+  rpc AddPlayer(AddPlayerReq) returns (AddPlayerResp) {
+    option (google.api.http) = {
+      post: "v3/players"
       body: "*"
     };
   }

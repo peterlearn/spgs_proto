@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "peterlearn/api;v1";
+
+// 注册账号
+message AddPlayerReq {
+  string member_code = 1;
+  string password = 2;
+}
+
+// 注册账号返回
+message AddPlayerResp {
+  string openid = 1;
+}

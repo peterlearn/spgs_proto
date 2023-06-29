@@ -19,9 +19,12 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationApiServiceAddPlayer = "/api.ApiService/AddPlayer"
 const OperationApiServiceHello = "/api.ApiService/Hello"
 
 type ApiServiceHTTPServer interface {
+	// AddPlayer 新建用户
+	AddPlayer(context.Context, *AddPlayerReq) (*AddPlayerResp, error)
 	// Hello 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
 }
@@ -29,6 +32,7 @@ type ApiServiceHTTPServer interface {
 func RegisterApiServiceHTTPServer(s *http.Server, srv ApiServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("api/Hello", _ApiService_Hello0_HTTP_Handler(srv))
+	r.POST("v3/players", _ApiService_AddPlayer0_HTTP_Handler(srv))
 }
 
 func _ApiService_Hello0_HTTP_Handler(srv ApiServiceHTTPServer) func(ctx http.Context) error {
@@ -50,7 +54,27 @@ func _ApiService_Hello0_HTTP_Handler(srv ApiServiceHTTPServer) func(ctx http.Con
 	}
 }
 
+func _ApiService_AddPlayer0_HTTP_Handler(srv ApiServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in AddPlayerReq
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationApiServiceAddPlayer)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.AddPlayer(ctx, req.(*AddPlayerReq))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*AddPlayerResp)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ApiServiceHTTPClient interface {
+	AddPlayer(ctx context.Context, req *AddPlayerReq, opts ...http.CallOption) (rsp *AddPlayerResp, err error)
 	Hello(ctx context.Context, req *Empty, opts ...http.CallOption) (rsp *HelloResp, err error)
 }
 
@@ -60,6 +84,19 @@ type ApiServiceHTTPClientImpl struct {
 
 func NewApiServiceHTTPClient(client *http.Client) ApiServiceHTTPClient {
 	return &ApiServiceHTTPClientImpl{client}
+}
+
+func (c *ApiServiceHTTPClientImpl) AddPlayer(ctx context.Context, in *AddPlayerReq, opts ...http.CallOption) (*AddPlayerResp, error) {
+	var out AddPlayerResp
+	pattern := "v3/players"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationApiServiceAddPlayer))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
 }
 
 func (c *ApiServiceHTTPClientImpl) Hello(ctx context.Context, in *Empty, opts ...http.CallOption) (*HelloResp, error) {

@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ApiService_Hello_FullMethodName = "/api.ApiService/Hello"
+	ApiService_Hello_FullMethodName     = "/api.ApiService/Hello"
+	ApiService_AddPlayer_FullMethodName = "/api.ApiService/AddPlayer"
 )
 
 // ApiServiceClient is the client API for ApiService service.
@@ -28,6 +29,8 @@ const (
 type ApiServiceClient interface {
 	// 发送消息
 	Hello(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*HelloResp, error)
+	// 新建用户
+	AddPlayer(ctx context.Context, in *AddPlayerReq, opts ...grpc.CallOption) (*AddPlayerResp, error)
 }
 
 type apiServiceClient struct {
@@ -47,12 +50,23 @@ func (c *apiServiceClient) Hello(ctx context.Context, in *Empty, opts ...grpc.Ca
 	return out, nil
 }
 
+func (c *apiServiceClient) AddPlayer(ctx context.Context, in *AddPlayerReq, opts ...grpc.CallOption) (*AddPlayerResp, error) {
+	out := new(AddPlayerResp)
+	err := c.cc.Invoke(ctx, ApiService_AddPlayer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiServiceServer is the server API for ApiService service.
 // All implementations must embed UnimplementedApiServiceServer
 // for forward compatibility
 type ApiServiceServer interface {
 	// 发送消息
 	Hello(context.Context, *Empty) (*HelloResp, error)
+	// 新建用户
+	AddPlayer(context.Context, *AddPlayerReq) (*AddPlayerResp, error)
 	mustEmbedUnimplementedApiServiceServer()
 }
 
@@ -62,6 +76,9 @@ type UnimplementedApiServiceServer struct {
 
 func (UnimplementedApiServiceServer) Hello(context.Context, *Empty) (*HelloResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Hello not implemented")
+}
+func (UnimplementedApiServiceServer) AddPlayer(context.Context, *AddPlayerReq) (*AddPlayerResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPlayer not implemented")
 }
 func (UnimplementedApiServiceServer) mustEmbedUnimplementedApiServiceServer() {}
 
@@ -94,6 +111,24 @@ func _ApiService_Hello_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiService_AddPlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPlayerReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServiceServer).AddPlayer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiService_AddPlayer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServiceServer).AddPlayer(ctx, req.(*AddPlayerReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiService_ServiceDesc is the grpc.ServiceDesc for ApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +139,10 @@ var ApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Hello",
 			Handler:    _ApiService_Hello_Handler,
+		},
+		{
+			MethodName: "AddPlayer",
+			Handler:    _ApiService_AddPlayer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
