@@ -39,32 +39,32 @@ func ErrorInvalidParams(format string, args ...interface{}) *errors.Error {
 	return errors.New(1, ErrCode_InvalidParams.String(), fmt.Sprintf(format, args...))
 }
 
-// redis错误
-func IsRedisError(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == ErrCode_RedisError.String() && e.Code == 2
-}
-
-// redis错误
-func ErrorRedisError(format string, args ...interface{}) *errors.Error {
-	return errors.New(2, ErrCode_RedisError.String(), fmt.Sprintf(format, args...))
-}
-
 // token失效
 func IsTokenFailure(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_TokenFailure.String() && e.Code == 3
+	return e.Reason == ErrCode_TokenFailure.String() && e.Code == 2
 }
 
 // token失效
 func ErrorTokenFailure(format string, args ...interface{}) *errors.Error {
-	return errors.New(3, ErrCode_TokenFailure.String(), fmt.Sprintf(format, args...))
+	return errors.New(2, ErrCode_TokenFailure.String(), fmt.Sprintf(format, args...))
+}
+
+// redis错误
+func IsRedisError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_RedisError.String() && e.Code == 3
+}
+
+// redis错误
+func ErrorRedisError(format string, args ...interface{}) *errors.Error {
+	return errors.New(3, ErrCode_RedisError.String(), fmt.Sprintf(format, args...))
 }
 
 // riak错误
@@ -79,6 +79,34 @@ func IsRiakError(err error) bool {
 // riak错误
 func ErrorRiakError(format string, args ...interface{}) *errors.Error {
 	return errors.New(4, ErrCode_RiakError.String(), fmt.Sprintf(format, args...))
+}
+
+// mysql错误
+func IsMysqlError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_MysqlError.String() && e.Code == 5
+}
+
+// mysql错误
+func ErrorMysqlError(format string, args ...interface{}) *errors.Error {
+	return errors.New(5, ErrCode_MysqlError.String(), fmt.Sprintf(format, args...))
+}
+
+// mongodb错误
+func IsMGError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_MGError.String() && e.Code == 6
+}
+
+// mongodb错误
+func ErrorMGError(format string, args ...interface{}) *errors.Error {
+	return errors.New(6, ErrCode_MGError.String(), fmt.Sprintf(format, args...))
 }
 
 // merchantName wrong
