@@ -35,3 +35,9 @@ enum Language {
   LG_Chinese = 5; // 中文
   LG_Malaysia = 6; // 马来文
 }
+
+// 维护状态
+enum MainStatus {
+  MS_Closed = 0 ;// 维护关闭
+  MS_Open = 1; // 维护打开
+}
