@@ -31,12 +31,12 @@ func IsInvalidParams(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_InvalidParams.String() && e.Code == 1
+	return e.Reason == ErrCode_InvalidParams.String() && e.Code == 520
 }
 
 // 非法参数
 func ErrorInvalidParams(format string, args ...interface{}) *errors.Error {
-	return errors.New(1, ErrCode_InvalidParams.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_InvalidParams.String(), fmt.Sprintf(format, args...))
 }
 
 // token失效
@@ -45,12 +45,12 @@ func IsTokenFailure(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_TokenFailure.String() && e.Code == 2
+	return e.Reason == ErrCode_TokenFailure.String() && e.Code == 520
 }
 
 // token失效
 func ErrorTokenFailure(format string, args ...interface{}) *errors.Error {
-	return errors.New(2, ErrCode_TokenFailure.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_TokenFailure.String(), fmt.Sprintf(format, args...))
 }
 
 // redis错误
@@ -59,12 +59,12 @@ func IsRedisError(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_RedisError.String() && e.Code == 3
+	return e.Reason == ErrCode_RedisError.String() && e.Code == 520
 }
 
 // redis错误
 func ErrorRedisError(format string, args ...interface{}) *errors.Error {
-	return errors.New(3, ErrCode_RedisError.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_RedisError.String(), fmt.Sprintf(format, args...))
 }
 
 // riak错误
@@ -73,12 +73,12 @@ func IsRiakError(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_RiakError.String() && e.Code == 4
+	return e.Reason == ErrCode_RiakError.String() && e.Code == 520
 }
 
 // riak错误
 func ErrorRiakError(format string, args ...interface{}) *errors.Error {
-	return errors.New(4, ErrCode_RiakError.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_RiakError.String(), fmt.Sprintf(format, args...))
 }
 
 // mysql错误
@@ -87,12 +87,12 @@ func IsMysqlError(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_MysqlError.String() && e.Code == 5
+	return e.Reason == ErrCode_MysqlError.String() && e.Code == 520
 }
 
 // mysql错误
 func ErrorMysqlError(format string, args ...interface{}) *errors.Error {
-	return errors.New(5, ErrCode_MysqlError.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_MysqlError.String(), fmt.Sprintf(format, args...))
 }
 
 // mongodb错误
@@ -101,12 +101,12 @@ func IsMGError(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_MGError.String() && e.Code == 6
+	return e.Reason == ErrCode_MGError.String() && e.Code == 520
 }
 
 // mongodb错误
 func ErrorMGError(format string, args ...interface{}) *errors.Error {
-	return errors.New(6, ErrCode_MGError.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_MGError.String(), fmt.Sprintf(format, args...))
 }
 
 // merchantName wrong
@@ -115,12 +115,12 @@ func IsInvalidMerchantName(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_InvalidMerchantName.String() && e.Code == 48
+	return e.Reason == ErrCode_InvalidMerchantName.String() && e.Code == 520
 }
 
 // merchantName wrong
 func ErrorInvalidMerchantName(format string, args ...interface{}) *errors.Error {
-	return errors.New(48, ErrCode_InvalidMerchantName.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_InvalidMerchantName.String(), fmt.Sprintf(format, args...))
 }
 
 // merchantCode wrong
@@ -129,12 +129,12 @@ func IsInvalidMerchantCode(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_InvalidMerchantCode.String() && e.Code == 49
+	return e.Reason == ErrCode_InvalidMerchantCode.String() && e.Code == 520
 }
 
 // merchantCode wrong
 func ErrorInvalidMerchantCode(format string, args ...interface{}) *errors.Error {
-	return errors.New(49, ErrCode_InvalidMerchantCode.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_InvalidMerchantCode.String(), fmt.Sprintf(format, args...))
 }
 
 // merchant被锁
@@ -143,12 +143,12 @@ func IsMerchantNameLock(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_MerchantNameLock.String() && e.Code == 50
+	return e.Reason == ErrCode_MerchantNameLock.String() && e.Code == 520
 }
 
 // merchant被锁
 func ErrorMerchantNameLock(format string, args ...interface{}) *errors.Error {
-	return errors.New(50, ErrCode_MerchantNameLock.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_MerchantNameLock.String(), fmt.Sprintf(format, args...))
 }
 
 // merchant不存在
@@ -157,10 +157,52 @@ func IsGetMerchantError(err error) bool {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == ErrCode_GetMerchantError.String() && e.Code == 51
+	return e.Reason == ErrCode_GetMerchantError.String() && e.Code == 520
 }
 
 // merchant不存在
 func ErrorGetMerchantError(format string, args ...interface{}) *errors.Error {
-	return errors.New(51, ErrCode_GetMerchantError.String(), fmt.Sprintf(format, args...))
+	return errors.New(520, ErrCode_GetMerchantError.String(), fmt.Sprintf(format, args...))
+}
+
+// 内部错误
+func IsSystemError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_SystemError.String() && e.Code == 520
+}
+
+// 内部错误
+func ErrorSystemError(format string, args ...interface{}) *errors.Error {
+	return errors.New(520, ErrCode_SystemError.String(), fmt.Sprintf(format, args...))
+}
+
+// api维护中
+func IsMaintainError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_MaintainError.String() && e.Code == 520
+}
+
+// api维护中
+func ErrorMaintainError(format string, args ...interface{}) *errors.Error {
+	return errors.New(520, ErrCode_MaintainError.String(), fmt.Sprintf(format, args...))
+}
+
+// 代理维护中
+func IsMaintainAgentError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_MaintainAgentError.String() && e.Code == 520
+}
+
+// 代理维护中
+func ErrorMaintainAgentError(format string, args ...interface{}) *errors.Error {
+	return errors.New(520, ErrCode_MaintainAgentError.String(), fmt.Sprintf(format, args...))
 }
