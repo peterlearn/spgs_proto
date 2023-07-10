@@ -206,3 +206,17 @@ func IsMaintainAgentError(err error) bool {
 func ErrorMaintainAgentError(format string, args ...interface{}) *errors.Error {
 	return errors.New(520, ErrCode_MaintainAgentError.String(), fmt.Sprintf(format, args...))
 }
+
+// 限流
+func IsRateLimitError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == ErrCode_RateLimitError.String() && e.Code == 520
+}
+
+// 限流
+func ErrorRateLimitError(format string, args ...interface{}) *errors.Error {
+	return errors.New(520, ErrCode_RateLimitError.String(), fmt.Sprintf(format, args...))
+}

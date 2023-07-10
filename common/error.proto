@@ -34,4 +34,6 @@ enum ErrCode {
   SystemError = 500; // 内部错误
   MaintainError = 1600 ;  // api维护中
   MaintainAgentError = 1601 ; // 代理维护中
+
+  RateLimitError = 1602 ; // 限流
 }
